@@ -16,6 +16,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load History on Start
     loadHistory();
 
+    // Theme Toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeIcon = themeToggleBtn.querySelector('i');
+    
+    // Check for saved theme preference or default to dark
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+    });
+
+    function updateThemeIcon(theme) {
+        if (theme === 'dark') {
+            themeIcon.className = 'fa-solid fa-sun';
+        } else {
+            themeIcon.className = 'fa-solid fa-moon';
+        }
+    }
+
     // Drag & Drop Events
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         dropZone.addEventListener(eventName, preventDefaults, false);
